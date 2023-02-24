@@ -24,3 +24,7 @@ def signUp():
 @auth.route('/price_module')
 def price_module():
     return render_template('price_module.html')
+
+@auth.route('/edit_profile')
+def edit_profile():
+    return render_template('edit_profile.html')
