@@ -1,0 +1,30 @@
+<!-- This template will be same as base.html but we can override anything we want -->
+{% extends "base.html" %}
+{% block title %}Login{% endblock %}
+
+{% block content %}
+<h1>This Is Login Page</h1>
+<!--
+Login form input
+-->
+  <div class="container">
+    <p><label for="user"><b>Username</b></label>
+    <input type="text" placeholder="Enter Username" name="user" required>
+</p>
+    <p><label for="pass"><b>Password</b></label>
+    <input type="password" placeholder="Enter Password" name="pass" required>
+</p>
+    <p><button type="submit">Login</button>
+    <label>
+      <input type="checkbox" checked="checked" name="remember"> Remember me
+  </label>
+  </p>
+  </div>
+
+  <div class="container" style="background-color:#f1f1f1">
+
+  <span class="pass"> <a href="#">Forgot password?</a></span>
+  </div>
+  <a href="sign-up">New User?</a>
+</form>
+{% endblock %}

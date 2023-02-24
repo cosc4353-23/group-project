@@ -1,0 +1,27 @@
+<!-- This template will be same as base.html but we can override anything we want -->
+{% extends "base.html" %}
+{% block title %}Sign-Up{% endblock %}
+
+{% block content %}
+<h1>This Is Sign Up Page</h1>
+<!--
+Sign up form input
+-->
+<div class="container">
+  <p><label for="user"><b>Username</b></label>
+  <input type="text" placeholder="Enter Username" name="user" required>
+</p>
+  <p><label for="pass"><b>Password</b></label>
+  <input type="password" placeholder="Enter Password" name="pass" required>
+</p>
+  <p><button type="submit">Sign Up</button>
+
+</p>
+</div>
+
+  <div class="container" style="background-color:#f1f1f1">
+
+
+  </div>
+</form>
+{% endblock %}
