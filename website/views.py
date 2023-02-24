@@ -16,3 +16,8 @@ def home():
 @views.route('/price_module')
 def price_module():
     return render_template('price_module.html')
+
+
+@views.route('/logout')
+def logout():
+    return render_template('logout.html')

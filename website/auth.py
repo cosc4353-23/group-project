@@ -19,8 +19,3 @@ def logout():
 @auth.route('/sign-up')
 def signUp():
     return render_template('sign_up.html')
-
-
-@auth.route('/price_module')
-def price_module():
-    return render_template('price_module.html')
