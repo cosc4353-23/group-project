@@ -14,6 +14,11 @@ def home():
     return render_template('home.html', isIndex=True)
 
 
+@views.route('/profile')
+def profile():
+    return render_template('profile.html', isIndex=True)
+
+
 @views.route('/price_module')
 def price_module():
     return render_template('price_module.html', isIndex=True)
