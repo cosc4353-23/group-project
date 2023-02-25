@@ -1,7 +1,65 @@
 <!-- This template will be same as base.html but we can override anything we want -->
+
+<!-- - Fuel Quote Form with following fields: (We are not building pricing module yet)
+    - Gallons Requested (numeric, required)
+    - Delivery Address (Non-editable, comes from client profile)
+    - Delivery Date (Calender, date picker)
+    - Suggested Price / gallon (numeric non-editable, price will be calculated by Pricing Module - we are not building pricing module yet)
+    - Total Amount Due (numeric non-editable, calculated (gallons * price))
+ -->
 {% extends "base.html" %}
 {% block title %}Module{% endblock %}
 
 {% block content %}
-<h1>This Is Price Module</h1>
+<h3 align="center">Get A Quote</h3>
+<div>
+    <label for="gallons">Gallons Requested</label>
+    <input type="number" class="form-control" id="gallonsR" placeholder="Gallons">
+    <br />
+</div>
+
+<form>
+    <div class="form-group">
+        <label for="address">Delivery Address</label>
+        <input type="text" class="form-control" id="address" name="address" placeholder="Address" />
+    </div>
+    <div class="form-group">
+        <label for="date">Prefered Delivery Date</label>
+        <input type="date" class="form-control" id="date" name="date" placeholder="Delivery Date" />
+    </div>
+    <br />
+
+    
+</form>
+
+<button id="calculate" class="btn btn-primary">Submit For a Quote</button>
+<br/>
+<br/>
+
+<div>
+    <h4>Your Quote</h4>
+    <span id="total" style="font-weight:bold;">0</span>
+    $
+</div>
+
+<script>
+    window.onload = () =>
+    //the function called when giveQuote button is clicked.
+    {
+        /*calling a function giveQuote
+         which will calculate with hardcoded 5 dolloars per gallon*/
+        document.querySelector('#calculate').onclick = giveQuote;
+    }
+    function giveQuote() 
+    {
+        /*assign values of ID*/
+        let amount = document.querySelector('#gallonsR').value;
+        //calculating the quote by multiplying gallons * 5 for now
+        //fixing the total amount upto 2 digits of decimal
+        let total = (amount * 5);
+        total = total.toFixed(2);
+        //finally displaying the tip value 
+        document.querySelector('#total').innerHTML = total;
+    }
+</script>
 {% endblock %}

@@ -3,28 +3,32 @@
 {% block title %}Login{% endblock %}
 
 {% block content %}
-<h1>This Is Login Page</h1>
 <!--
 Login form input
 -->
-  <div class="container">
-    <p><label for="user"><b>Username</b></label>
-    <input type="text" placeholder="Enter Username" name="user" required>
-</p>
-    <p><label for="pass"><b>Password</b></label>
-    <input type="password" placeholder="Enter Password" name="pass" required>
-</p>
-    <p><button type="submit">Login</button>
-    <label>
-      <input type="checkbox" checked="checked" name="remember"> Remember me
-  </label>
-  </p>
-  </div>
+  <br/>
+  <h2 align="left">Gas O'Line Inc.</h2>
+  <form>
+    <h3 align="center">Login</h3>
+    <div class="form-group">
+      <label for="email">Email Address</label>
+      <input type="email" class="form-control" id="email" name="email" placeholder="Enter email" />
+    </div>
+    <div class="form-group">
+      <label for="password">Password</label>
+      <input type="password" class="form-control" id="password" name="password" placeholder="Enter password" />
+    </div>
+    <br />
+    <button id = "userIn" type="submit" class="btn btn-primary">Login</button>
+  </form>
 
-  <div class="container" style="background-color:#f1f1f1">
 
-  <span class="pass"> <a href="#">Forgot password?</a></span>
-  </div>
-  <a href="sign-up">New User?</a>
-</form>
+  <script>
+    window.onload = () => {
+        document.querySelector('#userIn').onclick = login_to_home;
+      }
+      function login_to_home(){
+        window.location.href = '/';
+      }
+  </script>
 {% endblock %}
