@@ -11,12 +11,12 @@ views = Blueprint('views', __name__)
 
 @views.route('/')
 def home():
-    return render_template('home.html')
+    return render_template('home.html', isIndex=True)
 
 
 @views.route('/price_module')
 def price_module():
-    return render_template('price_module.html')
+    return render_template('price_module.html', isIndex=True)
 
 
 @views.route('/logout')
