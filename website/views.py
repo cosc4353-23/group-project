@@ -1,7 +1,8 @@
 # this stores URL endpoints for the front-end of website
 # anything that the user can navigate to, will be handled here (excpet anything related to authentication)
 
-from flask import Blueprint, render_template
+from flask import Blueprint, render_template, request, flash, redirect, url_for
+from flask_login import login_required, current_user
 views = Blueprint('views', __name__)
 
 # @name.rout(only slash here bc in home directory)
@@ -20,4 +21,4 @@ def price_module():
 
 @views.route('/logout')
 def logout():
-    return render_template('logout.html')
+    return redirect(url_for('auth.login'))
