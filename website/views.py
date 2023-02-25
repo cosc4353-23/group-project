@@ -19,6 +19,11 @@ def profile():
     return render_template('profile.html', isIndex=True)
 
 
+@views.route('/history')
+def history():
+    return render_template('history.html', isIndex=True)
+
+
 @views.route('/price_module')
 def price_module():
     return render_template('price_module.html', isIndex=True)
