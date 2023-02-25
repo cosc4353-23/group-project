@@ -1,5 +1,5 @@
 # stores anything related to authentication --> login, logout, sign-up
-from flask import Blueprint, render_template
+from flask import Blueprint, render_template, request, flash, redirect, url_for
 
 auth = Blueprint('auth', __name__)
 
@@ -16,6 +16,6 @@ def logout():
     return "<h1>You Have Logged Out</h1>"
 
 
-@auth.route('/sign-up')
+@auth.route('/sign-up', methods=['GET', 'POST'])
 def signUp():
     return render_template('sign_up.html')
