@@ -2,135 +2,159 @@
 {% block title %}Transaction History{% endblock %}
 
 {% block content %}
+<h1 align="center">Transaction History</h1>
+<ul class="list-group list-group-flush" id="notes">
+    {% for note in user.notes %}
+    <li class="list-group-item">
+        {{note.data}}
+        {{note.date}}
+        <!-- <button type="button" class="close" onClick="deleteNote({{ note.id }})">
+            <span aria-hidden="true">&times;</span>
+        </button> -->
+    </li>
+    {% endfor %}
+</ul>
+
+
+
+
+
+
+
+<!-- above is the code for displaying notes, gotta translate this into displaying transactions -->
+
+
+
+
 <div class="history-container">
     <div class="header">
-        <h2>John Doe</h2>
+        <h3> Transactions for: {{current_user.fullName}} </h3>
     </div>
     <div>
-        </div>
-        <div class="transactions">
-            <h3>Recent Activity</h3>
-            <table>
-                <tbody>
-                    <tr class="transaction-row">
-                        <td class="transaction-date">02/24/2023</td>
-                        <td>300 gallons</td>
-                        <td class="transaction-amount">$1,500</td>
-                    </tr>
-                    <tr class="transaction-row">
-                        <td class="transaction-date">01/25/2023</td>
-                        <td>200 gallons</td>
-                        <td class="transaction-amount">$1,000</td>
-                    </tr>
-                    <tr class="transaction-row">
-                        <td class="transaction-date">01/06/2023</td>
-                        <td>350 gallons</td>
-                        <td class="transaction-amount">$1,750</td>
-                    </tr>
-                    <tr class="transaction-row">
-                        <td class="transaction-date">12/25/2022</td>
-                        <td>125 gallons</td>
-                        <td class="transaction-amount">$625</td>
-                    </tr>
-                    <tr class="transaction-row">
-                        <td class="transaction-date">11/24/2022</td>
-                        <td>475 gallons</td>
-                        <td class="transaction-amount">$2,375</td>
-                    </tr>
-                    <tr class="transaction-row">
-                        <td class="transaction-date">06/09/2022</td>
-                        <td>430 gallons</td>
-                        <td class="transaction-amount">$2,150</td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
     </div>
-    <div class="footer">
+    <div class="transactions">
+        <h3>Recent Activity</h3>
+        <table>
+            <tbody>
+                <tr class="transaction-row">
+                    <td class="transaction-date">02/24/2023</td>
+                    <td>300 gallons</td>
+                    <td class="transaction-amount">$1,500</td>
+                </tr>
+                <tr class="transaction-row">
+                    <td class="transaction-date">01/25/2023</td>
+                    <td>200 gallons</td>
+                    <td class="transaction-amount">$1,000</td>
+                </tr>
+                <tr class="transaction-row">
+                    <td class="transaction-date">01/06/2023</td>
+                    <td>350 gallons</td>
+                    <td class="transaction-amount">$1,750</td>
+                </tr>
+                <tr class="transaction-row">
+                    <td class="transaction-date">12/25/2022</td>
+                    <td>125 gallons</td>
+                    <td class="transaction-amount">$625</td>
+                </tr>
+                <tr class="transaction-row">
+                    <td class="transaction-date">11/24/2022</td>
+                    <td>475 gallons</td>
+                    <td class="transaction-amount">$2,375</td>
+                </tr>
+                <tr class="transaction-row">
+                    <td class="transaction-date">06/09/2022</td>
+                    <td>430 gallons</td>
+                    <td class="transaction-amount">$2,150</td>
+                </tr>
+            </tbody>
+        </table>
     </div>
+</div>
+<div class="footer">
+</div>
 </div>
 
 <style>
     * {
-    box-sizing: border-box;
-}
+        box-sizing: border-box;
+    }
 
-body {
-    font-family: Arial, sans-serif;
-}
+    body {
+        font-family: Arial, sans-serif;
+    }
 
-.history-container {
-    padding: 30px;
-    border: 1px solid gray;
-    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.45);
-}
+    .history-container {
+        padding: 30px;
+        border: 1px solid gray;
+        box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.45);
+    }
 
-.history-container>.header {
-    margin-bottom: 30px;
-}
+    .history-container>.header {
+        margin-bottom: 30px;
+    }
 
-h2 {
-    font-size: 24px;
-    margin: 0;
-    font-weight: normal;
-}
+    h2 {
+        font-size: 24px;
+        margin: 0;
+        font-weight: normal;
+    }
 
-.account-balance {
-    display: flex;
-    flex-grow: 1;
-    align-items: baseline;
-    margin-top: 15px;
-}
+    .account-balance {
+        display: flex;
+        flex-grow: 1;
+        align-items: baseline;
+        margin-top: 15px;
+    }
 
-.account-balance>.label {
-    font-size: 14px;
-}
+    .account-balance>.label {
+        font-size: 14px;
+    }
 
-.account-balance>amount {
-    font-size: 16px;
-}
+    .account-balance>amount {
+        font-size: 16px;
+    }
 
-.dots {
-    border-bottom: 1px dotted #ccc;
-    flex-grow: 1;
-}
+    .dots {
+        border-bottom: 1px dotted #ccc;
+        flex-grow: 1;
+    }
 
-.transactions {
-    background-color: #ededed;
-    margin-top: 30px;
-    margin-bottom: 10px;
-    padding: 20px;
-}
+    .transactions {
+        background-color: #ededed;
+        margin-top: 30px;
+        margin-bottom: 10px;
+        padding: 20px;
+    }
 
-.transactions>table {
-    width: 100%;
-    border-collapse: collapse;
-    border-bottom: 1px solid #ccc;
-}
+    .transactions>table {
+        width: 100%;
+        border-collapse: collapse;
+        border-bottom: 1px solid #ccc;
+    }
 
-.transactions>table td {
-    padding: 0;
-}
+    .transactions>table td {
+        padding: 0;
+    }
 
-h3 {
-    font-size: 18px;
-    margin: 0;
-    font-weight: normal;
-    padding: 10px 0;
-}
+    h3 {
+        font-size: 18px;
+        margin: 0;
+        font-weight: normal;
+        padding: 10px 0;
+    }
 
-.transaction-row {
-    height: 30px;
-    white-space: pre;
-}
+    .transaction-row {
+        height: 30px;
+        white-space: pre;
+    }
 
-.transaction-date {
-    width: 23%;
-    /*?*/
-}
+    .transaction-date {
+        width: 23%;
+        /*?*/
+    }
 
-.transaction-amount {
-    text-align: right;
-}
+    .transaction-amount {
+        text-align: right;
+    }
 </style>
 {% endblock %}

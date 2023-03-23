@@ -1,33 +1,25 @@
-<!-- This template will be same as base.html but we can override anything we want -->
-<!-- - Full Name (50 characters, required)
-    - Address 1 (100 characters, required)
-    - Address 2 (100 characters, optional)
-    - City (100 characters, required)
-    - State (Drop Down, selection required) DB will store 2 character state code
-    - Zipcode (9 characters, at least 5 character code required) -->
-{% extends "base.html" %}
-{% block title %}Profile Management{% endblock %}
+{% extends "base.html" %} {% block title %}Sign Up{% endblock %} {% block
+content %}
 
-{% block content %}
-<h3 align="left">Please provide additional information so that we may complete your profile</h3>
-
-
-<form>
+<form method="POST">
     <div class="form-group">
-        <label for="fullName">Delivery Address</label>
-        <input type="text" class="form-control" id="fullName" name="fullName" placeholder="Full Name (Required)" maxlength="50" required/>
+        <label for="fullName">Full Name</label>
+        <input type="text" class="form-control" id="fullName" name="fullName" placeholder="Full Name (Required)"
+            maxlength="50" required />
     </div>
     <div class="form-group">
         <label for="address1">Address 1</label>
-        <input type="text" class="form-control" id="address1" name="address1" placeholder="Address (Required)" maxlength="100" required/>
+        <input type="text" class="form-control" id="address1" name="address1" placeholder="Address (Required)"
+            maxlength="100" required />
     </div>
     <div class="form-group">
         <label for="address2">Adress 2</label>
-        <input type="text" class="form-control" id="address2" name="address2" placeholder="Address 2 (Optional)" maxlength="100"/>
+        <input type="text" class="form-control" id="address2" name="address2" placeholder="Address 2 (Optional)"
+            maxlength="100" />
     </div>
     <div class="form-group">
         <label for="city">City</label>
-        <input type="text" class="form-control" id="city" name="city" placeholder="city" maxlength="100" required/>
+        <input type="text" class="form-control" id="city" name="city" placeholder="city" maxlength="100" required />
     </div>
     <div class="form-group">
         <label for="state">State</label>
@@ -89,20 +81,13 @@
     </div>
     <div class="form-group">
         <label for="zipcode">Zipcode</label>
-        <input type="text" class="form-control" id="zipcode" name="zipcode" placeholder="zipcode" pattern="[0-9]*" minlength="5" maxlength="9" required/>
+        <input type="text" class="form-control" id="zipcode" name="zipcode" placeholder="zipcode" pattern="[0-9]*"
+            minlength="5" maxlength="9" required />
     </div>
     <br />
 
     <button id="userIn" type="submit" class="btn btn-primary">Submit</button>
     <br />
 </form>
-<script>
-    window.onload = () => {
-        document.querySelector('#userIn').onclick = login_to_home;
-    }
-    function login_to_home() {
-        window.location.href = '/';
-    }
-</script>
 
 {% endblock %}
