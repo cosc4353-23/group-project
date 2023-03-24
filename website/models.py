@@ -19,7 +19,7 @@ class User(db.Model, UserMixin):
     zipcode = db.Column(db.String(150))
 
     notes = db.relationship('Note')
-    
+    transactions = db.relationship('Transaction')
    
 
 
@@ -29,4 +29,10 @@ class Note(db.Model):
     date = db.Column(db.DateTime(timezone=True), default=func.now())
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
 
-
+class Transaction(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    gallons = db.Column(db.Integer)
+    total = db.Column(db.Numeric(10,2))
+    date = db.Column(db.DateTime(timezone=True), default=func.now())
+    delivery_date = db.Column(db.String(20))
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))

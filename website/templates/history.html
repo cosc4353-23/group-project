@@ -3,69 +3,30 @@
 
 {% block content %}
 <h1 align="center">Transaction History</h1>
-<ul class="list-group list-group-flush" id="notes">
-    {% for note in user.notes %}
-    <li class="list-group-item">
-        {{note.data}}
-        {{note.date}}
-        <!-- <button type="button" class="close" onClick="deleteNote({{ note.id }})">
-            <span aria-hidden="true">&times;</span>
-        </button> -->
-    </li>
-    {% endfor %}
-</ul>
-
-
-
-
-
-
-
-<!-- above is the code for displaying notes, gotta translate this into displaying transactions -->
-
-
-
 
 <div class="history-container">
     <div class="header">
-        <h3> Transactions for: {{current_user.fullName}} </h3>
+        <h3>{{current_user.fullName}} </h3>
     </div>
     <div>
     </div>
     <div class="transactions">
-        <h3>Recent Activity</h3>
         <table>
             <tbody>
                 <tr class="transaction-row">
-                    <td class="transaction-date">02/24/2023</td>
-                    <td>300 gallons</td>
-                    <td class="transaction-amount">$1,500</td>
+                    <td><strong>Purchase Date</strong></td>
+                    <td><strong>Delivery Date</strong></td>
+                    <td><strong>Gallons</strong></td>
+                    <td><strong>Total</strong></td>
                 </tr>
+                {% for transaction in user.transactions[::-1] %}
                 <tr class="transaction-row">
-                    <td class="transaction-date">01/25/2023</td>
-                    <td>200 gallons</td>
-                    <td class="transaction-amount">$1,000</td>
+                    <td>{{transaction.date}}</td>
+                    <td>{{transaction.delivery_date}}</td>
+                    <td>{{transaction.gallons}} gallons</td>
+                    <td>${{transaction.total}}</td>
                 </tr>
-                <tr class="transaction-row">
-                    <td class="transaction-date">01/06/2023</td>
-                    <td>350 gallons</td>
-                    <td class="transaction-amount">$1,750</td>
-                </tr>
-                <tr class="transaction-row">
-                    <td class="transaction-date">12/25/2022</td>
-                    <td>125 gallons</td>
-                    <td class="transaction-amount">$625</td>
-                </tr>
-                <tr class="transaction-row">
-                    <td class="transaction-date">11/24/2022</td>
-                    <td>475 gallons</td>
-                    <td class="transaction-amount">$2,375</td>
-                </tr>
-                <tr class="transaction-row">
-                    <td class="transaction-date">06/09/2022</td>
-                    <td>430 gallons</td>
-                    <td class="transaction-amount">$2,150</td>
-                </tr>
+                {% endfor %}
             </tbody>
         </table>
     </div>
