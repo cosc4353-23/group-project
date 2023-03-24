@@ -54,7 +54,7 @@
     {% if current_user.transactions | length > 0%}
     <h4>Your most recent quote</h4>
     {{current_user.transactions[-1].gallons}}
-    gallons to arive on
+    gallons to arrive on
     {{current_user.transactions[-1].delivery_date}}:
     <span id="total" style="font-weight:bold;">
         ${{current_user.transactions[-1].total}}
