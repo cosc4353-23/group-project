@@ -11,55 +11,56 @@
 {% block title %}Module{% endblock %}
 
 {% block content %}
-<h3 align="center">Get A Quote</h3>
-<div>
-    <label for="gallons">Gallons Requested</label>
-    <input type="number" class="form-control" id="gallonsR" placeholder="Gallons">
-    <br />
-</div>
 
-<form>
+<h3 align="center">Get A Quote</h3>
+
+<form method="POST">
     <div class="form-group">
-        <label for="address">Delivery Address</label>
-        <input type="text" class="form-control" id="address" name="address" placeholder="Address" />
+        <label for="gallons">Gallons Requested</label>
+        <input type="text" class="form-control" id="gallons" name="gallons" placeholder="Gallons">
     </div>
     <div class="form-group">
-        <label for="date">Prefered Delivery Date</label>
+        <label for="date">Preferred Delivery Date</label>
         <input type="date" class="form-control" id="date" name="date" placeholder="Delivery Date" />
     </div>
+    {% if current_user.address1 is not none %}
+    <div class="form-group">
+        <label for="address">Delivery Address: {{current_user.address1}}</label>
+    </div>
+    <div>
+        <button type="submit" class="btn btn-primary" id="calculate">Get Quote</button>
+    </div>
     <br />
+    <div>
+        <span id="total" style="font-weight:bold;">
+            Update profile if you would like to change delivery address.
+        </span>
+    </div>
+    {% endif %}
 
-    
+    {% if current_user.address1 is none %}
+    <div class="form-group">
+        <label for="address">Update Profile to request a quote.</label>
+    </div>
+    {% endif %}
+
+
 </form>
 
-<button id="calculate" class="btn btn-primary">Submit For a Quote</button>
-<br/>
-<br/>
+
+
 
 <div>
-    <h4>Your Quote</h4>
-    <span id="total" style="font-weight:bold;">0</span>
-    $
+    {% if current_user.transactions | length > 0%}
+    <h4>Your most recent quote</h4>
+    {{current_user.transactions[-1].gallons}}
+    gallons to arrive on
+    {{current_user.transactions[-1].delivery_date}}:
+    <span id="total" style="font-weight:bold;">
+        ${{current_user.transactions[-1].total}}
+    </span>
+    {% endif %}
 </div>
 
-<script>
-    window.onload = () =>
-    //the function called when giveQuote button is clicked.
-    {
-        /*calling a function giveQuote
-         which will calculate with hardcoded 5 dolloars per gallon*/
-        document.querySelector('#calculate').onclick = giveQuote;
-    }
-    function giveQuote() 
-    {
-        /*assign values of ID*/
-        let amount = document.querySelector('#gallonsR').value;
-        //calculating the quote by multiplying gallons * 5 for now
-        //fixing the total amount upto 2 digits of decimal
-        let total = (amount * 5);
-        total = total.toFixed(2);
-        //finally displaying the tip value 
-        document.querySelector('#total').innerHTML = total;
-    }
-</script>
+
 {% endblock %}

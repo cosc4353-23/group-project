@@ -1,34 +1,16 @@
-<!-- This template will be same as base.html but we can override anything we want -->
-{% extends "base.html" %}
-{% block title %}Login{% endblock %}
-
-{% block content %}
-<!--
-Login form input
--->
-  <br/>
-  <h2 align="left">Gas O'Line Inc.</h2>
-  <form>
+{% extends "base.html" %} {% block title %}Login{% endblock %} {% block content
+%}
+<form method="POST">
     <h3 align="center">Login</h3>
     <div class="form-group">
-      <label for="email">Email Address</label>
-      <input type="email" class="form-control" id="email" name="email" placeholder="Enter email" />
+        <label for="email">Email Address</label>
+        <input type="email" class="form-control" id="email" name="email" placeholder="Enter email" />
     </div>
     <div class="form-group">
-      <label for="password">Password</label>
-      <input type="password" class="form-control" id="password" name="password" placeholder="Enter password" />
+        <label for="password">Password</label>
+        <input type="password" class="form-control" id="password" name="password" placeholder="Enter password" />
     </div>
     <br />
-    <button id = "userIn" type="submit" class="btn btn-primary">Login</button>
-  </form>
-
-
-  <script>
-    window.onload = () => {
-        document.querySelector('#userIn').onclick = login_to_home;
-      }
-      function login_to_home(){
-        window.location.href = '/';
-      }
-  </script>
+    <button type="submit" class="btn btn-primary">Login</button>
+</form>
 {% endblock %}
