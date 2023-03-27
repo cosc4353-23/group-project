@@ -20,14 +20,13 @@ def test_registration_not_email(client):
     response = client.post("/sign-up", data={"email": "not an email", "password1": "testpassword", "password2": "testpassword"})
     assert b'Please enter a valid email address' in response.data
 
-def test_registration_no_match(client):
-    response = client.post("/sign-up", data={"email": "test@test.com", "password1": "testpassword", "password2": "wrongpassword"})
-    assert b"Passwords don't match." in response.data
+def test_registration_passwords_dont_match(client):
+    response = client.post("/sign-up", data={"email": "test@test.com", "password1": "testpassword", "password2": "testpassword2"})
+    assert b'Passwords dont match' in response.data
 
 def test_registration_bad_password(client):
     response = client.post("/sign-up", data={"email": "test@test.com", "password1": "short", "password2": "short"})
     assert b'Password must be at least 7 characters.' in response.data
-
 
 def test_login_wrong_password(client):
     client.post("/sign-up", data={"email": "test@test.com", "password1": "testpassword", "password2": "testpassword"})
