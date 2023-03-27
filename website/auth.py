@@ -52,7 +52,7 @@ def sign_up():
         elif not(re.search(email_regex, email)):
             flash('Please enter a valid email address', category='error')
         elif password1 != password2:
-            flash('Passwords don\'t match.', category='error')
+            flash("Passwords don't match.", category='error')
         elif len(password1) < 7:
             flash('Password must be at least 7 characters.', category='error')
         else:
