@@ -23,3 +23,8 @@ htmlcov/
 .coverage
 .coverage.*
 *,cover
+
+db.sqlite3
+*.cpython-310.pyc
+
+__pycache__/
