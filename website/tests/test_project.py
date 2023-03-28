@@ -68,8 +68,24 @@ def test_pricing(client, app):
     client.post("/price_module", data={"gallons":"5", "date":"2024-11-23"})
     with app.app_context():
         assert Transaction.query.first().total == 25
+    
+def test_pricing_no_date(client):
+    client.post("/sign-up", data={"email": "test@test.com", "password1": "testpassword", "password2": "testpassword"})
+    client.post("/login", data={"email": "test@test.com", "password": "testpassword"})
+    client.post("/profile", data={"fullName": "John Smith", "address1": "123 Main", "address2": "appt 1", "city": "houston", "state": "Tx", "zipcode": "77001"})
+    response = client.post("/price_module", data={"gallons":"5", "date": ""})
+    assert b'Please enter a date for delivery' in response.data
 
-def test_history(client):
+def test_pricing_bad_gallons(client):
+    client.post("/sign-up", data={"email": "test@test.com", "password1": "testpassword", "password2": "testpassword"})
+    client.post("/login", data={"email": "test@test.com", "password": "testpassword"})
+    client.post("/profile", data={"fullName": "John Smith", "address1": "123 Main", "address2": "appt 1", "city": "houston", "state": "Tx", "zipcode": "77001"})
+    response = client.post("/price_module", data={"gallons":"", "date":"2024-11-23"})
+    assert b'Please enter a numeric value for gallons requested' in response.data
+    response = client.post("/price_module", data={"gallons":"a", "date":"2024-11-23"})
+    assert b'Please enter a numeric value for gallons requested' in response.data
+
+def test_history_load(client):
     client.post("/sign-up", data={"email": "test@test.com", "password1": "testpassword", "password2": "testpassword"})
     client.post("/login", data={"email": "test@test.com", "password": "testpassword"})
     response = client.get("/history", follow_redirects=True)
