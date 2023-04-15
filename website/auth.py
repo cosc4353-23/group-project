@@ -5,10 +5,7 @@ from . import db   ##means from __init__.py import db
 from flask_login import login_user, login_required, logout_user, current_user
 import re
 
-
-
 auth = Blueprint('auth', __name__)
-
 
 @auth.route('/login', methods=['GET', 'POST'])
 def login():
@@ -34,6 +31,7 @@ def login():
 @login_required
 def logout():
     logout_user()
+    flash('Logged out')
     return redirect(url_for('auth.login'))
 
 
@@ -50,8 +48,8 @@ def sign_up():
             flash('Email already exists.', category='error')
         elif not(re.search(email_regex, email)):
             flash('Please enter a valid email address', category='error')
-        elif password1 != password2:
-            flash('Passwords don\'t match.', category='error')
+        elif (password1 != password2):
+            flash('Passwords dont match', category='error')
         elif len(password1) < 7:
             flash('Password must be at least 7 characters.', category='error')
         else:

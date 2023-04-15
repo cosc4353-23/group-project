@@ -20,8 +20,6 @@ class User(db.Model, UserMixin):
 
     notes = db.relationship('Note')
     transactions = db.relationship('Transaction')
-   
-
 
 class Note(db.Model):
     id = db.Column(db.Integer, primary_key=True)
