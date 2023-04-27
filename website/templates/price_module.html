@@ -7,60 +7,125 @@
     - Suggested Price / gallon (numeric non-editable, price will be calculated by Pricing Module - we are not building pricing module yet)
     - Total Amount Due (numeric non-editable, calculated (gallons * price))
  -->
-{% extends "base.html" %}
-{% block title %}Module{% endblock %}
-
-{% block content %}
-
-<h3 align="center">Get A Quote</h3>
-
-<form method="POST">
-    <div class="form-group">
-        <label for="gallons">Gallons Requested</label>
-        <input type="text" class="form-control" id="gallons" name="gallons" placeholder="Gallons">
-    </div>
-    <div class="form-group">
-        <label for="date">Preferred Delivery Date</label>
-        <input type="date" class="form-control" id="date" name="date" placeholder="Delivery Date" />
-    </div>
-    {% if current_user.address1 is not none %}
-    <div class="form-group">
-        <label for="address">Delivery Address: {{current_user.address1}}</label>
-    </div>
-    <div>
-        <button type="submit" class="btn btn-primary" id="calculate">Get Quote</button>
-    </div>
-    <br />
-    <div>
-        <span id="total" style="font-weight:bold;">
-            Update profile if you would like to change delivery address.
-        </span>
-    </div>
-    {% endif %}
-
-    {% if current_user.address1 is none %}
-    <div class="form-group">
-        <label for="address">Update Profile to request a quote.</label>
-    </div>
-    {% endif %}
-
-
-</form>
-
-
-
-
-<div>
-    {% if current_user.transactions | length > 0%}
-    <h4>Your most recent quote</h4>
-    {{current_user.transactions[-1].gallons}}
-    gallons to arrive on
-    {{current_user.transactions[-1].delivery_date}}:
-    <span id="total" style="font-weight:bold;">
-        ${{current_user.transactions[-1].total}}
-    </span>
-    {% endif %}
-</div>
-
-
-{% endblock %}
+ {% extends "base.html" %}
+ {% block title %}Module{% endblock %}
+ 
+ {% block content %}
+ 
+ <h3 align="center">Get A Quote</h3>
+ 
+ 
+ 
+ <form method="POST">
+     <div class="form-group">
+         <label for="gallons">Gallons Requested</label>
+         <input type="text" class="form-control" id="gallons" name="gallons" placeholder="Gallons">
+     </div>
+     <div class="form-group">
+         <label for="date">Preferred Delivery Date</label>
+         <input type="date" class="form-control" id="date" name="date" placeholder="Delivery Date" />
+     </div>
+     {% if current_user.address1 is not none %}
+     <div class="form-group">
+         <label style="font-weight:bold;" for="address">Delivery Address: {{current_user.address1}}</label>
+         <span id="total">
+             (Update profile if you would like to change delivery address.)
+         </span>
+     </div>
+ 
+     <div>
+         {% set state_var = current_user.state %}
+         {% set trans_hist = current_user.transactions | length %}
+         <button type="button" class="btn btn-outline-secondary" onclick="quote('{{state_var}}', '{{trans_hist}}')">Get
+             Quote</button>
+     </div>
+     <br />
+     <h8 id="quote_total"></h8>
+     <br />
+     <h8 id="quote_unit"></h8>
+     <div>
+         <button type="submit" class="btn btn-outline-primary" id="calculate">Submit Quote</button>
+     </div>
+ 
+     <br />
+ 
+     {% endif %}
+ 
+     {% if current_user.address1 is none %}
+     <div class="form-group">
+         <label for="address">Update Profile to request a quote.</label>
+     </div>
+     {% endif %}
+ </form>
+ 
+ 
+ <div>
+     {% if current_user.transactions | length > 0%}
+     <h4>Your most recent quote</h4>
+     {{current_user.transactions[-1].gallons}}
+     gallons to arrive on
+     {{current_user.transactions[-1].delivery_date}}:
+     <span id="total" style="font-weight:bold;">
+         ${{current_user.transactions[-1].total}}
+     </span>
+     {% endif %}
+ </div>
+ 
+ 
+ 
+ <script>
+     function quote(state, transaction_amount){
+         const gallon_over = 0.02;
+         const gallon_under = 0.03;
+         let gallon_factor = 0;
+         let gallons_requested = document.getElementById("gallons").value;
+         if(gallons_requested > 0){
+             const tex = 0.02;
+             const not_tex = 0.04;
+             let tex_factor = 0;
+             if (state == "TX") {
+                 tex_factor = tex;
+             } else {
+                 tex_factor = not_tex;
+             }
+             //document.getElementById("demo").innerHTML = tex_factor;
+             const hist = 0.01;
+             const no_hist = 0;
+             let hist_factor = 0;
+             if (transaction_amount == 0) {
+                 hist_factor = no_hist;
+             } else {
+                 hist_factor = hist;
+             }
+             //document.getElementById("demo").innerHTML = hist_factor;
+             
+             //do something here to ensure gallons > 0//////////////////////////
+             if(gallons_requested < 1000){
+                 gallon_factor = gallon_under;
+             }
+             if(gallons_requested > 1000){
+                 gallon_factor = gallon_over;
+             }
+             //document.getElementById("demo").innerHTML = gallon_factor;
+             // Company Profit Factor = 10 % always
+             const base_per_gallon = 1.5;
+             const profit = 0.1;
+             //Margin = Current Price * (Location Factor - Rate History Factor + Gallons Requested Factor + Company Profit Factor)
+             let margin = base_per_gallon * ((tex_factor - hist_factor) + (gallon_factor + profit));
+             //Suggested Price / gallon => 1.50 + .195 = $1.695
+             //Total Amount Due => 1500 * 1.695 = $2542.50
+             price = base_per_gallon + margin;
+             total = gallons_requested * price;
+             price = Math.round((price + Number.EPSILON) * 100) / 100;
+             total = Math.round((total + Number.EPSILON) * 100) / 100;
+             document.getElementById("quote_total").innerHTML = "Total Price: $" + total;
+             document.getElementById("quote_unit").innerHTML = "Unit Price: $" + price;
+         }
+         else{
+             document.getElementById("quote_total").innerHTML = "Please enter a valid numeric value for gallons requested."
+             document.getElementById("quote_unit").innerHTML = "";
+ 
+         }
+     }
+ </script>
+ {% endblock %}
