@@ -1,0 +1,101 @@
+<!-- This template will be same as base.html but we can override anything we want -->
+<!-- - Full Name (50 characters, required)
+    - Address 1 (100 characters, required)
+    - Address 2 (100 characters, optional)
+    - City (100 characters, required)
+    - State (Drop Down, selection required) DB will store 2 character state code
+    - Zipcode (9 characters, at least 5 character code required) -->
+{% extends "base.html" %}
+{% block title %}Profile{% endblock %}
+
+{% block content %}
+<form method="POST">
+    <div class="form-group">
+        <label for="fullName">Full Name</label>
+        <input type="text" class="form-control" id="fullName" name="fullName" placeholder="Full Name (Required)"
+            maxlength="50" required />
+    </div>
+    <div class="form-group">
+        <label for="address1">Address 1</label>
+        <input type="text" class="form-control" id="address1" name="address1" placeholder="Address (Required)"
+            maxlength="100" required />
+    </div>
+    <div class="form-group">
+        <label for="address2">Address 2</label>
+        <input type="text" class="form-control" id="address2" name="address2" placeholder="Address 2 (Optional)"
+            maxlength="100" />
+    </div>
+    <div class="form-group">
+        <label for="city">City</label>
+        <input type="text" class="form-control" id="city" name="city" placeholder="City" maxlength="100" required />
+    </div>
+    <div class="form-group">
+        <label for="state">State</label>
+        <select name="state" size="1" required>
+            <option value="" selected="selected">Select a State</option>
+            <option value="AK">AK</option>
+            <option value="AL">AL</option>
+            <option value="AR">AR</option>
+            <option value="AZ">AZ</option>
+            <option value="CA">CA</option>
+            <option value="CO">CO</option>
+            <option value="CT">CT</option>
+            <option value="DC">DC</option>
+            <option value="DE">DE</option>
+            <option value="FL">FL</option>
+            <option value="GA">GA</option>
+            <option value="HI">HI</option>
+            <option value="IA">IA</option>
+            <option value="ID">ID</option>
+            <option value="IL">IL</option>
+            <option value="IN">IN</option>
+            <option value="KS">KS</option>
+            <option value="KY">KY</option>
+            <option value="LA">LA</option>
+            <option value="MA">MA</option>
+            <option value="MD">MD</option>
+            <option value="ME">ME</option>
+            <option value="MI">MI</option>
+            <option value="MN">MN</option>
+            <option value="MO">MO</option>
+            <option value="MS">MS</option>
+            <option value="MT">MT</option>
+            <option value="NC">NC</option>
+            <option value="ND">ND</option>
+            <option value="NE">NE</option>
+            <option value="NH">NH</option>
+            <option value="NJ">NJ</option>
+            <option value="NM">NM</option>
+            <option value="NV">NV</option>
+            <option value="NY">NY</option>
+            <option value="OH">OH</option>
+            <option value="OK">OK</option>
+            <option value="OR">OR</option>
+            <option value="PA">PA</option>
+            <option value="RI">RI</option>
+            <option value="SC">SC</option>
+            <option value="SD">SD</option>
+            <option value="TN">TN</option>
+            <option value="TX">TX</option>
+            <option value="UT">UT</option>
+            <option value="VA">VA</option>
+            <option value="VT">VT</option>
+            <option value="WA">WA</option>
+            <option value="WI">WI</option>
+            <option value="WV">WV</option>
+            <option value="WY">WY</option>
+        </select>
+
+    </div>
+    <div class="form-group">
+        <label for="zipcode">Zip Code</label>
+        <input type="text" class="form-control" id="zipcode" name="zipcode" placeholder="Zip Code" pattern="[0-9]*"
+            minlength="5" maxlength="9" required />
+    </div>
+    <br />
+
+    <button id="userIn" type="submit" class="btn btn-primary">Submit</button>
+    <br />
+</form>
+
+{% endblock %}
