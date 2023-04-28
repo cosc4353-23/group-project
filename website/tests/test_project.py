@@ -107,6 +107,32 @@ def test_pricing_not_texas_small(client, app):
         total = 20*(1.5+(1.5*((0.04 - 0.01) + (.03 + 0.1))))
         assert Transaction.query.slice(1,2).first().total == round(Decimal(total), 2)
 
+def test_pricing_texas_large(client, app):
+    client.post("/sign-up", data={"email": "test@test.com", "password1": "testpassword", "password2": "testpassword"})
+    client.post("/login", data={"email": "test@test.com", "password": "testpassword"})
+    client.post("/profile", data={"fullName": "John Smith", "address1": "123 Main", "address2": "appt 1", "city": "houston", "state": "TX", "zipcode": "77001"})
+    client.post("/price_module", data={"gallons":"1500", "date":"2024-11-23"})
+    with app.app_context():
+        total = 1500*(1.5+(1.5*((0.02) + (.02 + 0.1))))
+        assert Transaction.query.first().total == round(Decimal(total), 2)
+    client.post("/price_module", data={"gallons":"20000", "date":"2024-11-23"})
+    with app.app_context():
+        total = 20000*(1.5+(1.5*((0.02 - 0.01) + (.02 + 0.1))))
+        assert Transaction.query.slice(1,2).first().total == round(Decimal(total), 2)
+
+def test_pricing_not_texas_large(client, app):
+    client.post("/sign-up", data={"email": "test@test.com", "password1": "testpassword", "password2": "testpassword"})
+    client.post("/login", data={"email": "test@test.com", "password": "testpassword"})
+    client.post("/profile", data={"fullName": "John Smith", "address1": "123 Main", "address2": "appt 1", "city": "houston", "state": "AL", "zipcode": "77001"})
+    client.post("/price_module", data={"gallons":"2000", "date":"2024-11-23"})
+    with app.app_context():
+        total = 2000*(1.5+(1.5*((0.04) + (.02 + 0.1))))
+        assert Transaction.query.first().total == round(Decimal(total), 2)
+    client.post("/price_module", data={"gallons":"1000", "date":"2024-11-23"})
+    with app.app_context():
+        total = 1000*(1.5+(1.5*((0.04 - 0.01) + (.02 + 0.1))))
+        assert Transaction.query.slice(1,2).first().total == round(Decimal(total), 2)
+
 
 def test_history_load(client):
     client.post("/sign-up", data={"email": "test@test.com", "password1": "testpassword", "password2": "testpassword"})
