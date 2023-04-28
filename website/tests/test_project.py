@@ -60,14 +60,6 @@ def test_profile(client, app):
 
     response = client.get("/")
     assert b"<title>Home</title>" in response.data
-
-def test_pricing(client, app):
-    client.post("/sign-up", data={"email": "test@test.com", "password1": "testpassword", "password2": "testpassword"})
-    client.post("/login", data={"email": "test@test.com", "password": "testpassword"})
-    client.post("/profile", data={"fullName": "John Smith", "address1": "123 Main", "address2": "appt 1", "city": "houston", "state": "Tx", "zipcode": "77001"})
-    client.post("/price_module", data={"gallons":"5", "date":"2024-11-23"})
-    with app.app_context():
-        assert Transaction.query.first().total == 25
     
 def test_pricing_no_date(client):
     client.post("/sign-up", data={"email": "test@test.com", "password1": "testpassword", "password2": "testpassword"})
@@ -84,6 +76,22 @@ def test_pricing_bad_gallons(client):
     assert b'Please enter a numeric value for gallons requested' in response.data
     response = client.post("/price_module", data={"gallons":"a", "date":"2024-11-23"})
     assert b'Please enter a numeric value for gallons requested' in response.data
+    response = client.post("/price_module", data={"gallons":"-1", "date":"2024-11-23"})
+    assert b'Please enter a valid numerical value for gallons requested' in response.data
+
+def test_pricing_texas(client, app):
+    client.post("/sign-up", data={"email": "test@test.com", "password1": "testpassword", "password2": "testpassword"})
+    client.post("/login", data={"email": "test@test.com", "password": "testpassword"})
+    client.post("/profile", data={"fullName": "John Smith", "address1": "123 Main", "address2": "appt 1", "city": "houston", "state": "TX", "zipcode": "77001"})
+    client.post("/price_module", data={"gallons":"5", "date":"2024-11-23"})
+    with app.app_context():
+        total = 5*(1.5+(1.5*((0.02) + (.03 + 0.1))))
+        total = Math.round((total + Number.EPSILON) * 100) / 100;
+        assert Transaction.query.first().total == 5*(1.5+(1.5*((0.02) + (.03 + 0.1))))
+    # client.post("/price_module", data={"gallons":"20", "date":"2024-11-23"})
+    # with app.app_context():
+    #     assert Transaction.query.second().total == 20*(1.5+(1.5*((0.02-.01) + (.03 + 0.1)))) 
+
 
 def test_history_load(client):
     client.post("/sign-up", data={"email": "test@test.com", "password1": "testpassword", "password2": "testpassword"})
