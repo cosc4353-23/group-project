@@ -1,4 +1,6 @@
 from website.models import User, Transaction
+from decimal import Decimal
+from sqlalchemy import func
 
 def test_home(client):
     response = client.get("/login")
@@ -79,18 +81,18 @@ def test_pricing_bad_gallons(client):
     response = client.post("/price_module", data={"gallons":"-1", "date":"2024-11-23"})
     assert b'Please enter a valid numerical value for gallons requested' in response.data
 
-def test_pricing_texas(client, app):
+def test_pricing_texas_small(client, app):
     client.post("/sign-up", data={"email": "test@test.com", "password1": "testpassword", "password2": "testpassword"})
     client.post("/login", data={"email": "test@test.com", "password": "testpassword"})
     client.post("/profile", data={"fullName": "John Smith", "address1": "123 Main", "address2": "appt 1", "city": "houston", "state": "TX", "zipcode": "77001"})
-    client.post("/price_module", data={"gallons":"5", "date":"2024-11-23"})
+    client.post("/price_module", data={"gallons":"1", "date":"2024-11-23"})
     with app.app_context():
-        total = 5*(1.5+(1.5*((0.02) + (.03 + 0.1))))
-        total = Math.round((total + Number.EPSILON) * 100) / 100;
-        assert Transaction.query.first().total == 5*(1.5+(1.5*((0.02) + (.03 + 0.1))))
-    # client.post("/price_module", data={"gallons":"20", "date":"2024-11-23"})
-    # with app.app_context():
-    #     assert Transaction.query.second().total == 20*(1.5+(1.5*((0.02-.01) + (.03 + 0.1)))) 
+        total = 1*(1.5+(1.5*((0.02) + (.03 + 0.1))))
+        assert Transaction.query.first().total == round(Decimal(total), 2)
+    client.post("/price_module", data={"gallons":"20", "date":"2024-11-23"})
+    with app.app_context():
+        total = 20*(1.5+(1.5*((0.02 - 0.01) + (.03 + 0.1))))
+        assert Transaction.query.slice(1,2).first().total == round(Decimal(total), 2)
 
 
 def test_history_load(client):
