@@ -112,7 +112,7 @@ def price_module():
                 gallon_over = 0.02
                 gallon_under = 0.03
                 gallon_factor = 0
-                if(gallons > 1000):
+                if(gallons >= 1000):
                     gallon_factor = gallon_over
                 if(gallons < 1000):
                     gallon_factor = gallon_under
