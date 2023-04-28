@@ -23,8 +23,15 @@
      </div>
      <div class="form-group">
          <label for="date">Preferred Delivery Date</label>
-         <input type="date" class="form-control" id="date" name="date" placeholder="Delivery Date" />
-     </div>
+         <input type="date" class="form-control" id="date" name="date" placeholder="Delivery Date"/>
+        <script>
+            window.onload = function(){
+                var now = new Date();
+                minDate = now.toISOString().substring(0,10);
+                $('#date').attr('min', minDate);
+            };
+        </script>    
+    </div>
      {% if current_user.address1 is not none %}
      <div class="form-group">
          <label style="font-weight:bold;" for="address">Delivery Address: {{current_user.address1}}</label>
@@ -74,7 +81,7 @@
  
  
  <script>
-     function quote(state, transaction_amount){
+    function quote(state, transaction_amount){
          const gallon_over = 0.02;
          const gallon_under = 0.03;
          let gallon_factor = 0;
